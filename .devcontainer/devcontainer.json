@@ -1,0 +1,16 @@
+{
+    "name": "Rust DevContainer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "settings": {
+        "terminal.integrated.defaultProfile.linux": "/bin/bash"
+    },
+    "extensions": [
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "mutantdino.resourcemonitor"
+    ],
+    "forwardPorts": [3000],
+    "postCreateCommand": "rustup update"
+}
