@@ -17,9 +17,14 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     --no-install-recommends
 
-RUN apt-get install -y sudo
+RUN apt-get install -y sudo ssh 
+
 # Create a non-root user with a home directory
-RUN useradd -ms /bin/bash rustuser
+# RUN useradd -ms /bin/bash rustuser
+ARG USER_ID=1000
+ARG GROUP_ID=986
+RUN groupadd -g ${GROUP_ID} rustuser && \
+    useradd -u ${USER_ID} -g rustuser -ms /bin/bash rustuser
 
 # Switch to the new user for Rust installation
 USER rustuser
