@@ -19,6 +19,13 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y sudo openssh-client 
 
+# install just
+# RUN wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
+# RUN echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr jammy" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
+# RUN apt-get update
+# RUN apt-get install -y just 
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+
 # Create a non-root user with a home directory
 # If you run your Dockerfile with a userid=1000 and groupid=1000, 
 # the UID/GID updating will then update that user's UID and GID to your local ones.
