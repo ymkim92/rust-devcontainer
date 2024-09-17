@@ -3,11 +3,6 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
-    "runArgs": [
-        "--user",
-        "${localEnv:UID}:${localEnv:GID}"
-    ],
-//   "postCreateCommand": "sudo chown -R ${localEnv:UID}:${localEnv:GID} /home/vscode", // Optional: if you need to change ownership
     "settings": {
         "terminal.integrated.defaultProfile.linux": "/bin/bash"
     },

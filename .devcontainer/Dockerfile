@@ -20,9 +20,11 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y sudo openssh-client 
 
 # Create a non-root user with a home directory
+# If you run your Dockerfile with a userid=1000 and groupid=1000, 
+# the UID/GID updating will then update that user's UID and GID to your local ones.
 ARG USERNAME=rustuser
 ARG USER_UID=1000
-ARG USER_GID=986
+ARG USER_GID=${USER_UID}
 RUN groupadd --gid ${USER_GID} ${USERNAME} \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} -s /bin/bash    
 
