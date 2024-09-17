@@ -17,23 +17,25 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     --no-install-recommends
 
-RUN apt-get install -y sudo ssh 
+RUN apt-get install -y sudo openssh-client 
 
 # Create a non-root user with a home directory
-# RUN useradd -ms /bin/bash rustuser
-ARG USER_ID=1000
-ARG GROUP_ID=986
-RUN groupadd -g ${GROUP_ID} rustuser && \
-    useradd -u ${USER_ID} -g rustuser -ms /bin/bash rustuser
+# If you run your Dockerfile with a userid=1000 and groupid=1000, 
+# the UID/GID updating will then update that user's UID and GID to your local ones.
+ARG USERNAME=rustuser
+ARG USER_UID=1000
+ARG USER_GID=${USER_UID}
+RUN groupadd --gid ${USER_GID} ${USERNAME} \
+    && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} -s /bin/bash    
 
 # Switch to the new user for Rust installation
-USER rustuser
+USER ${USERNAME}
 
 # Install Rust (Stable) using rustup
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Set the environment path for Rust binaries
-ENV PATH=/home/rustuser/.cargo/bin:$PATH
+ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 
 # Install Rust components and tools
 RUN rustup component add rustfmt clippy
