@@ -4,7 +4,7 @@ use study::math;
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     // Define a test
     #[test]
     fn test_add() {

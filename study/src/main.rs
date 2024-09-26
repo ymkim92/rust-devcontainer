@@ -1,4 +1,4 @@
-use study::math::add;  // This brings the add function into scope
+use study::math::add; // This brings the add function into scope
 
 fn main() {
     let result = add(5, 3);

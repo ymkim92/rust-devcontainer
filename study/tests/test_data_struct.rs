@@ -14,9 +14,7 @@ pub struct User {
 impl UserDatabase {
     // Create a new, empty UserDatabase
     pub fn new() -> Self {
-        UserDatabase {
-            users: HashMap::new(),
-        }
+        UserDatabase { users: HashMap::new() }
     }
 
     // Add a user to the database
