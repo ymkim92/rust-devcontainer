@@ -2,9 +2,9 @@
 #![no_main]
 
 use cortex_m_rt::entry;
+use hal::{pac, prelude::*, timer::Timer};
 use panic_halt as _;
 use stm32f7xx_hal as hal;
-use hal::{prelude::*, pac, timer::Timer};
 
 #[entry]
 fn main() -> ! {

@@ -15,6 +15,8 @@ test:
     cargo test
 test-with-output:
     cargo test -- --show-output
+objdump:
+    rust-objdump --section-headers target/thumbv7em-none-eabihf/debug/stm32f7-demo
 linting:
     cargo fmt
     cargo clippy

@@ -19,3 +19,9 @@ memory.x = true
 [dependencies.stm32f7xx-hal]
 version = "0.8.0"
 features = ["stm32f767", "rt"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
