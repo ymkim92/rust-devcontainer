@@ -47,6 +47,11 @@ ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 # Install Rust components and tools
 RUN rustup component add rustfmt clippy
 
+# for stm32f7
+RUN rustup target add thumbv7em-none-eabihf
+RUN cargo install cargo-binutils
+RUN rustup component add llvm-tools-preview
+
 # Clean up APT cache (still as rustuser, no need for root for this)
 # RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
 
