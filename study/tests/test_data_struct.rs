@@ -7,8 +7,7 @@ pub struct UserDatabase {
 
 // A struct representing a user
 pub struct User {
-    name: String,
-    age: u32,
+    m_age: u32,
 }
 
 impl UserDatabase {
@@ -22,19 +21,19 @@ impl UserDatabase {
         if self.users.contains_key(&name) {
             Err(format!("User {} already exists", name))
         } else {
-            self.users.insert(name.clone(), User { name, age });
+            self.users.insert(name.clone(), User { m_age: age });
             Ok(())
         }
     }
 
     // Get a user's age, if the user exists
     pub fn get_user_age(&self, name: &str) -> Option<u32> {
-        self.users.get(name).map(|user| user.age)
+        self.users.get(name).map(|user| user.m_age)
     }
 }
 
 #[cfg(test)]
-mod tests {
+mod db_tests {
     use super::*;
 
     // This function will be run before each test
@@ -46,7 +45,16 @@ mod tests {
     fn test_add_user() {
         let mut db = setup();
         assert!(db.add_user("Alice".to_string(), 30).is_ok());
-        assert_eq!(db.get_user_age("Alice"), Some(30));
+        assert!(db.add_user("Alice".to_string(), 30).is_err());
+        let result = db.add_user("Alice".to_string(), 25);
+        assert!(result.is_err());
+        
+        match result {
+            Err(error_string) => {
+                assert_eq!(error_string, "User Alice already exists");
+            },
+            Ok(_) => panic!("Expected an error, but got Ok"),
+        }
     }
 
     #[test]
@@ -61,13 +69,6 @@ mod tests {
         let db = setup();
         assert_eq!(db.get_user_age("Charlie"), None);
     }
-
-    // #[test]
-    // #[should_panic(expected = "User must be at least 18 years old")]
-    // fn test_add_underage_user() {
-    //     let mut db = setup();
-    //     db.add_user("David".to_string(), 16).unwrap();
-    // }
 
     #[test]
     fn test_multiple_users() {
