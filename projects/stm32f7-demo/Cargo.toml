@@ -13,9 +13,6 @@ panic-halt = "0.2"     # Halts on panic (optional)
 [build-dependencies]
 cortex-m-rtic = "1.1.4"  # Optional
 
-[package.metadata.cortex-m-rt]
-memory.x = true
-
 [dependencies.stm32f7xx-hal]
 version = "0.8.0"
 features = ["stm32f767", "rt"]
