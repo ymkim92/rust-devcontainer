@@ -10,9 +10,6 @@ cortex-m-rtic = "1.1.4"  # Real-time interrupt-driven concurrency, optional
 embedded-hal = "0.2"   # HAL for embedded devices
 panic-halt = "0.2"     # Halts on panic (optional)
 
-[build-dependencies]
-cortex-m-rtic = "1.1.4"  # Optional
-
 [dependencies.stm32f7xx-hal]
 version = "0.8.0"
 features = ["stm32f767", "rt"]
@@ -22,3 +19,6 @@ panic = "abort"
 
 [profile.release]
 panic = "abort"
+
+[build]
+rustflags = ["-C", "link-arg=-Tlink.x"]

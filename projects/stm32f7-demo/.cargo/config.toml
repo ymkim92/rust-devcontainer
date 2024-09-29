@@ -1,6 +1,0 @@
-[target.thumbv7em-none-eabihf]
-rustflags = [
-  "-C", "link-arg=-Tmemory.x",         
-  "-C", "link-arg=--gc-sections",      # Remove unused sections
-  "-C", "link-arg=-Map=output.map"     # Generate a map file for memory layout
-]
