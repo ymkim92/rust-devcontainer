@@ -33,7 +33,9 @@ impl Printable for Article {
 }
 
 // Function that uses the Printable trait
-fn print_item(item: &impl Printable) {
+// 2 different but equivalent way of definition
+// fn print_item(item: &impl Printable) {
+fn print_item<T: Printable>(item: &T) {
     item.print();
 }
 
