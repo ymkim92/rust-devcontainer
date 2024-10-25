@@ -48,11 +48,11 @@ mod db_tests {
         assert!(db.add_user("Alice".to_string(), 30).is_err());
         let result = db.add_user("Alice".to_string(), 25);
         assert!(result.is_err());
-        
+
         match result {
             Err(error_string) => {
                 assert_eq!(error_string, "User Alice already exists");
-            },
+            }
             Ok(_) => panic!("Expected an error, but got Ok"),
         }
     }
