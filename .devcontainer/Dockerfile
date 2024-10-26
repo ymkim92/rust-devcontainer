@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y \
     lldb \
     python3 \
     python3-pip \
+    gdb-multiarch openocd qemu-system-arm \
+    sudo openssh-client \
     --no-install-recommends
-
-RUN apt-get install -y sudo openssh-client 
 
 # install just
 # RUN wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
@@ -47,11 +47,12 @@ ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 # Install Rust components and tools
 RUN rustup component add rustfmt clippy
 
-# for stm32f7
-RUN rustup target add thumbv7em-none-eabihf
-RUN cargo install cargo-binutils
+RUN cargo install cargo-binutils cargo-generate
 RUN rustup component add llvm-tools-preview
 
+# thumbv7em-none-eabihf for ARM Cortex-M4F and Cortex-M7F (stm32f7)
+# thumbv7m-none-eabi for ARM Cortex-M3
+RUN rustup target add thumbv7em-none-eabihf thumbv7m-none-eabi
 # Clean up APT cache (still as rustuser, no need for root for this)
 # RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
 
