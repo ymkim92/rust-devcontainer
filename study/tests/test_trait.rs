@@ -1,8 +1,19 @@
+use std::io::{self, Write};
+
+pub fn write_data<W: Write>(mut writer: W, data: &str) -> io::Result<()> {
+    writer.write_all(data.as_bytes())
+}
+
+// Usage in library code
+pub fn process_and_output<W: Write>(output: W, data: &str) -> io::Result<()> {
+    write_data(output, data)
+}
+
 // Define a trait
 trait Printable {
     fn format(&self) -> String;
-    fn print(&self) {
-        println!("{}", self.format());
+    fn print<W: Write>(&self, output: W) -> io::Result<()> {
+        process_and_output(output, &self.format())
     }
 }
 
@@ -35,8 +46,8 @@ impl Printable for Article {
 // Function that uses the Printable trait
 // 2 different but equivalent way of definition
 // fn print_item(item: &impl Printable) {
-fn print_item<T: Printable>(item: &T) {
-    item.print();
+fn print_item<T: Printable, W: Write>(item: &T, output: W) -> io::Result<()>{
+    item.print(output)
 }
 
 #[cfg(test)]
@@ -56,12 +67,24 @@ mod trait_test {
             author: String::from("Rust Team"),
         };
 
-        // Use the trait methods directly
-        book.print();
-        article.print();
+        // Use the trait methods directly``
+        assert!(book.print(std::io::stdout()).is_ok());
+        assert!(article.print(std::io::stdout()).is_ok());
 
         // Use the function that accepts any Printable item
-        print_item(&book);
-        print_item(&article);
+        assert!(print_item(&book, std::io::stdout()).is_ok());
+        assert!(print_item(&article, std::io::stdout()).is_ok());
+        
+        let mut book_buffer1 = Vec::new();
+        let mut book_buffer2 = Vec::new();
+        book.print(&mut book_buffer1).unwrap();        
+        print_item(&book, &mut book_buffer2).unwrap();        
+        assert_eq!(book_buffer1, book_buffer2);
+
+        let mut article_buffer1 = Vec::new();
+        let mut article_buffer2 = Vec::new();
+        article.print(&mut article_buffer1).unwrap();        
+        print_item(&article, &mut article_buffer2).unwrap();        
+        assert_eq!(article_buffer1, article_buffer2);
     }
 }
