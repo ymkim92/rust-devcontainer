@@ -1,8 +1,15 @@
 {
     "name": "Rust DevContainer",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Dockerfile",
     },
+
+    "mounts": [
+        "source=${env:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+    ],
+    "runArgs": [
+        "-e", "SSH_AUTH_SOCK=/ssh-agent"
+    ],
     "settings": {
         "terminal.integrated.defaultProfile.linux": "/bin/bash"
     },
